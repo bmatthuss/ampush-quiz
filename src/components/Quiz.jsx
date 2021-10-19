@@ -43,9 +43,15 @@ const Quiz = (props) => {
   }
 
   const displayEndQuiz = () => {
+    let city = "";
+    if(pointsLA > pointsNY) {
+      city = "Los Angeles";
+    } else if (pointsNY > pointsLA) {
+      city = "New York";
+    }
     return (
       <div className='content-wrapper'>
-        END
+        Congrats, you are a survivor!  You just escaped from {city}!
       </div>
     );
   }
@@ -78,13 +84,7 @@ const Quiz = (props) => {
         answer_LA = "Puffs a cigarette while going into the darkness ";
         answer_NY = "Picks a cigarette box labelled “American Spirit”";
         break;
-      case 6:
-        // console.log("END");
-        // setQuizState(END);
       default:
-        prompt = "ERROR";
-        answer_LA = "ERROR";
-        answer_NY = "ERROR";
         setQuizState(END);
     }
     return (
