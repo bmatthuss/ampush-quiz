@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import '../App.css';
-import { useHistory } from "react-router";
 
 const Question = (props) => {
-  const history = useHistory();
 
   // const [currQuestion, setCurrQuestion] = useState(1);
 

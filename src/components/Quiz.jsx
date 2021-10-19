@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import '../App.css';
-import { useHistory } from "react-router";
 import Question from './Question';
 
-const Quiz = (props) => {
-  const history = useHistory();
+const START = 0;
+const IN_PROGRESS = 1;
+const END = 2;
 
+const Quiz = (props) => {
+  const [quizState, setQuizState] = useState(START);
   const [currQuestion, setCurrQuestion] = useState(1);
   const [pointsLA, setPointsLA] = useState(0);
   const [pointsNY, setPointsNY] = useState(0);
@@ -17,6 +19,35 @@ const Quiz = (props) => {
     } else if (choice === "NY") {
       setPointsNY(pointsNY + 1);
     }
+  }
+
+  const startQuiz = () => {
+    setQuizState(IN_PROGRESS);
+    setCurrQuestion(1);
+  }
+
+  const displayStartQuiz = () => {
+    return (
+      <div className='content-wrapper'>
+        <header className='header'>Did You Escape From NY or LA?</header>
+        <div className='button-wrapper'>
+          <button 
+            className='start-button'
+            onClick={startQuiz}
+          >
+            Start Quiz
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const displayEndQuiz = () => {
+    return (
+      <div className='content-wrapper'>
+        END
+      </div>
+    );
   }
 
   const displayCurrQuestion = () => {
@@ -47,10 +78,14 @@ const Quiz = (props) => {
         answer_LA = "Puffs a cigarette while going into the darkness ";
         answer_NY = "Picks a cigarette box labelled “American Spirit”";
         break;
+      case 6:
+        // console.log("END");
+        // setQuizState(END);
       default:
         prompt = "ERROR";
         answer_LA = "ERROR";
         answer_NY = "ERROR";
+        setQuizState(END);
     }
     return (
       <Question 
@@ -65,7 +100,19 @@ const Quiz = (props) => {
   return (
     <div className='page-wrapper'>
       <span className='question'>{props.question}</span>
-      {displayCurrQuestion()}
+
+      { quizState === START ? (
+        displayStartQuiz()
+      ) : (null)}
+
+      { quizState === IN_PROGRESS ? (
+        displayCurrQuestion()
+      ) : (null)}
+
+      { quizState === END ? (
+        displayEndQuiz()
+      ) : (null)}
+
     </div>
   )
 }
