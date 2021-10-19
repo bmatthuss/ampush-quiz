@@ -3,8 +3,8 @@ import '../App.css';
 
 const Footer = (props) => {
   return (
-    <div className='footer'>
-      © Brandon Huss
+    <div className='header'>
+      {props.text}
     </div>
   )
 }

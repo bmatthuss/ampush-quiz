@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import '../App.css';
 import Question from './Question';
+import Header from './Header';
+import ProgressBar from './ProgressBar';
+import Footer from './Footer';
 
 const START = 0;
 const IN_PROGRESS = 1;
@@ -8,7 +11,7 @@ const END = 2;
 
 const Quiz = (props) => {
   const [quizState, setQuizState] = useState(START);
-  const [currQuestion, setCurrQuestion] = useState(1);
+  const [currQuestion, setCurrQuestion] = useState(0);
   const [pointsLA, setPointsLA] = useState(0);
   const [pointsNY, setPointsNY] = useState(0);
 
@@ -23,16 +26,15 @@ const Quiz = (props) => {
 
   const startQuiz = () => {
     setQuizState(IN_PROGRESS);
-    setCurrQuestion(1);
   }
 
   const displayStartQuiz = () => {
     return (
       <div className='content-wrapper'>
-        <header className='header'>Did You Escape From NY or LA?</header>
+        <header className='quiz-title'>Did You Escape From NY or LA?</header>
         <div className='button-wrapper'>
           <button 
-            className='start-button'
+            className='button'
             onClick={startQuiz}
           >
             Start Quiz
@@ -43,15 +45,40 @@ const Quiz = (props) => {
   }
 
   const displayEndQuiz = () => {
-    let city = "";
+    let city = null;
     if(pointsLA > pointsNY) {
-      city = "Los Angeles";
+      city = (<>
+        <span style={{textDecoration: 'underline'}}>
+          Los&nbsp;Angeles
+        </span>!
+      </>);
     } else if (pointsNY > pointsLA) {
-      city = "New York";
+      city = (<>
+        <span style={{textDecoration: 'underline'}}>
+          New&nbsp;York
+        </span>!
+      </>);
     }
     return (
       <div className='content-wrapper'>
-        Congrats, you are a survivor!  You just escaped from {city}!
+        <div className='result-wrapper'>
+          <div className='result-content'>
+            <span className='result-city'>Los Angeles:</span>
+            <span className='result-points'>{pointsLA}</span>
+          </div>
+        </div>
+        <div className='result-wrapper'>
+          <div className='result-content'>
+            <span className='result-city'>New York:</span>
+            <span className='result-points'>{pointsNY}</span>
+          </div>
+        </div>
+        <div className='end-wrapper'>
+          <span className='end-message'>
+            {"Congrats, you are a survivor! You just escaped from "}
+            {city}
+          </span>
+        </div>
       </div>
     );
   }
@@ -59,27 +86,27 @@ const Quiz = (props) => {
   const displayCurrQuestion = () => {
     let prompt, answer_LA, answer_NY = "";
     switch (currQuestion) {
-      case 1:
+      case 0:
         prompt = "In which year did you escape?";
         answer_LA = "1997";
         answer_NY = "2013";
         break;
-      case 2:
+      case 1:
         prompt = "What caused the root of all the chaos?";
         answer_LA = "An earthquake";
         answer_NY = "World War 3";
         break;
-      case 3:
+      case 2:
         prompt = "The president tries to stop an invasion from where?";
         answer_LA = "Cuba";
         answer_NY = "Soviet Union";
         break;
-      case 4:
+      case 3:
         prompt = "Where was an island converted into a prison?";
         answer_LA = "LA";
         answer_NY = "Manhattan";
         break;
-      case 5:
+      case 4:
         prompt = "Warning.. SPOILER ALERT: At the end of the movie, the main character Snake, does what?";
         answer_LA = "Puffs a cigarette while going into the darkness ";
         answer_NY = "Picks a cigarette box labelled “American Spirit”";
@@ -97,22 +124,39 @@ const Quiz = (props) => {
     );
   }
 
+  const headerText = () => {
+    if(quizState === IN_PROGRESS) {
+      return "Question " + currQuestion
+    }
+    return "";
+  }
+
   return (
     <div className='page-wrapper'>
-      <span className='question'>{props.question}</span>
+      {/* <Header text={''}/> */}
+      {/* <ProgressBar 
+        quizState={quizState}
+        progress={currQuestion}
+      /> */}
 
-      { quizState === START ? (
+      {quizState === START ? (
         displayStartQuiz()
-      ) : (null)}
+      ) : (
+        <ProgressBar 
+          quizState={quizState}
+          progress={currQuestion}
+        />
+      )}
 
-      { quizState === IN_PROGRESS ? (
+      {quizState === IN_PROGRESS ? (
         displayCurrQuestion()
       ) : (null)}
 
-      { quizState === END ? (
+      {quizState === END ? (
         displayEndQuiz()
       ) : (null)}
 
+      <Footer />
     </div>
   )
 }

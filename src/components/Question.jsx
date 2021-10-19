@@ -68,6 +68,7 @@ const Question = (props) => {
       </div> */}
       <div className='next-question-wrapper'>
         <button
+          className='button'
           disabled={!checkLA && !checkNY}
           onClick={nextQuestion}
         >
