@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import '../App.css';
 import Question from './Question';
-import Header from './Header';
 import ProgressBar from './ProgressBar';
 import Footer from './Footer';
 
@@ -9,7 +8,7 @@ const START = 0;
 const IN_PROGRESS = 1;
 const END = 2;
 
-const Quiz = (props) => {
+const Quiz = () => {
   const [quizState, setQuizState] = useState(START);
   const [currQuestion, setCurrQuestion] = useState(0);
   const [pointsLA, setPointsLA] = useState(0);
@@ -22,6 +21,13 @@ const Quiz = (props) => {
     } else if (choice === "NY") {
       setPointsNY(pointsNY + 1);
     }
+  }
+
+  const resetQuiz = () => {
+    setQuizState(START);
+    setCurrQuestion(0);
+    setPointsLA(0);
+    setPointsNY(0);
   }
 
   const startQuiz = () => {
@@ -79,6 +85,14 @@ const Quiz = (props) => {
             {city}
           </span>
         </div>
+        <div className='restart-wrapper'>
+          <button
+            onClick={resetQuiz}
+            className='button'
+          >
+            Restart Quiz
+          </button>
+        </div>
       </div>
     );
   }
@@ -124,29 +138,16 @@ const Quiz = (props) => {
     );
   }
 
-  const headerText = () => {
-    if(quizState === IN_PROGRESS) {
-      return "Question " + currQuestion
-    }
-    return "";
-  }
-
   return (
     <div className='page-wrapper'>
-      {/* <Header text={''}/> */}
-      {/* <ProgressBar 
+      <ProgressBar 
         quizState={quizState}
         progress={currQuestion}
-      /> */}
+      />
 
       {quizState === START ? (
         displayStartQuiz()
-      ) : (
-        <ProgressBar 
-          quizState={quizState}
-          progress={currQuestion}
-        />
-      )}
+      ) : (null)}
 
       {quizState === IN_PROGRESS ? (
         displayCurrQuestion()

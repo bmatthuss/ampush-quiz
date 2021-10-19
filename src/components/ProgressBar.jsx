@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
 import '../App.css';
+
+const START = 0;
+const IN_PROGRESS = 1;
+const END = 2;
 
 const ProgressBar = (props) => {
 
@@ -29,17 +32,17 @@ const ProgressBar = (props) => {
   return (
     <div className='progress-wrapper'>
       <div className='progress-content'>
-        <div className='progress-text'>
-          {/* {props.progress < 6 ? (
-            <>Question {props.progress}/5</>
-          ) : (
-            <>Done!</>
-          )} */}
-          Answered {props.progress}/5
-        </div>
-        <div className='progress-bar'>
-          {showProgress()}
-        </div>
+        {props.quizState !== START ? (
+          <>
+            <div className='progress-text'>
+              Answered {props.progress}/5
+            </div>
+            <div className='progress-bar'>
+              {showProgress()}
+            </div>
+          </>
+        ) : (null)}
+
       </div>
     </div>
   )

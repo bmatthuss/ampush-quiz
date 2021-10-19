@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import '../App.css';
 
 const Question = (props) => {
-
-  // const [currQuestion, setCurrQuestion] = useState(1);
-
   const [checkLA, setCheckLA] = useState(false);
   const [checkNY, setCheckNY] = useState(false);
 
@@ -13,9 +10,7 @@ const Question = (props) => {
     setCheckNY(false);
   }, [props]);
 
-  // console.log("props: ", props);
   const chooseLA = (e) => {
-    // console.log("check event: ", e.target.value);
     if(checkLA === false){
       setCheckNY(false);
     }
@@ -23,7 +18,6 @@ const Question = (props) => {
   }
 
   const chooseNY = (e) => {
-    // console.log("check event: ", e.target.value);
     if(checkNY === false){
       setCheckLA(false);
     }
@@ -63,9 +57,6 @@ const Question = (props) => {
           {props.answer_NY}
         </label>
       </div>
-      {/* <div className='next'>
-        next
-      </div> */}
       <div className='next-question-wrapper'>
         <button
           className='button'
